@@ -1,0 +1,30 @@
+produto = {}
+valor = 0
+
+def tratarInserirInicio(listaCabeca, valor):
+    novoNo = {"valor": valorEntrada, "proximo": listaCabeca}
+    print("Incluiu com sucesso no início")
+    
+def tratarInserirFim(codProduto):
+    print(f"O código de produto passado foi: {codProduto}")
+    print("Produto incluído no FIM com sucesso")
+
+
+lista = None;
+while True:
+    print("\n=========Menu do CRUD===========")
+    print("1 - Inserir")
+    print("2 - Inserir no fim")
+    print("3 - Inserir no meio") 
+    print("4 - Listar")
+    print("5 - Remover nó")
+    print("6 - Buscar nó")
+    print("0 - Sair")
+    opcao = input("Escolha uma opção: ")
+    if opcao == "1":
+        tratarInserirInicio(lista, 10)
+    elif opcao == "2":
+        tratarInserirFim()
+    else:
+        break
+print("Obrigado por usar o sistema")

@@ -1,0 +1,177 @@
+def valorExiste(listaCabeca, valorEntrada):
+    atual = listaCabeca
+
+    while atual is not None:
+        if atual["valor"] == valorEntrada:
+            return True
+        atual = atual["proximo"]
+
+    return False
+
+
+def tratarInserirInicio(listaEntrada):
+    valor = input("Digite o código do produto: ")
+
+    if valorExiste(listaEntrada, valor):
+        print("Código de produto duplicado")
+        return listaEntrada
+
+    novoNO = {"valor": valor, "proximo": listaEntrada}
+
+    print("Produto inserido no INÍCIO com sucesso")
+    return novoNO
+
+
+def tratarInserirFim(listaEntrada):
+    valor = input("Digite o código do produto: ")
+
+    if valorExiste(listaEntrada, valor):
+        print("Código de produto duplicado")
+        return listaEntrada
+
+    novoNO = {"valor": valor, "proximo": None}
+
+    if listaEntrada is None:
+        print("Produto inserido no FIM com sucesso")
+        return novoNO
+
+    atual = listaEntrada
+
+    while atual["proximo"] is not None:
+        atual = atual["proximo"]
+
+    atual["proximo"] = novoNO
+
+    print("Produto inserido no FIM com sucesso")
+    return listaEntrada
+
+
+def tratarInserirMeio(listaEntrada):
+    valor = input("Digite o código do produto: ")
+    posicao = int(input("Digite a posição para inserir: "))
+
+    if valorExiste(listaEntrada, valor):
+        print("Código de produto duplicado")
+        return listaEntrada
+
+    novoNO = {"valor": valor, "proximo": None}
+
+    if posicao == 0:
+        novoNO["proximo"] = listaEntrada
+        return novoNO
+
+    atual = listaEntrada
+    contador = 0
+
+    while atual is not None and contador < posicao - 1:
+        atual = atual["proximo"]
+        contador += 1
+
+    if atual is None:
+        print("Posição inválida")
+        return listaEntrada
+
+    novoNO["proximo"] = atual["proximo"]
+    atual["proximo"] = novoNO
+
+    print("Produto inserido no MEIO com sucesso")
+    return listaEntrada
+
+
+def tratarLista(listaRecebida):
+    if listaRecebida is None:
+        print("Lista vazia")
+        return
+
+    listaAtual = listaRecebida
+
+    while listaAtual is not None:
+        print(listaAtual["valor"], end=" -> ")
+        listaAtual = listaAtual["proximo"]
+
+    print("None")
+
+
+def excluir(listaEntrada):
+    valor = input("Digite o código para remover: ")
+
+    if listaEntrada is None:
+        print("Lista vazia")
+        return listaEntrada
+
+    if listaEntrada["valor"] == valor:
+        print("Produto removido com sucesso")
+        return listaEntrada["proximo"]
+
+    atual = listaEntrada
+
+    while atual["proximo"] is not None:
+        if atual["proximo"]["valor"] == valor:
+            atual["proximo"] = atual["proximo"]["proximo"]
+            print("Produto removido com sucesso")
+            return listaEntrada
+
+        atual = atual["proximo"]
+
+    print("Produto não encontrado")
+    return listaEntrada
+
+
+def consultar(listaEntrada):
+    valor = input("Digite o código para buscar: ")
+
+    atual = listaEntrada
+    posicao = 0
+
+    while atual is not None:
+        if atual["valor"] == valor:
+            print(f"Produto encontrado na posição {posicao}")
+            return
+
+        atual = atual["proximo"]
+        posicao += 1
+
+    print("Produto não encontrado")
+
+
+def menu():
+    lista = None
+
+    while True:
+        print("\n========= MENU CRUD =========")
+        print("1 - Inserir no início")
+        print("2 - Inserir no fim")
+        print("3 - Inserir no meio")
+        print("4 - Listar")
+        print("5 - Remover nó")
+        print("6 - Buscar nó")
+        print("0 - Sair")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            lista = tratarInserirInicio(lista)
+
+        elif opcao == "2":
+            lista = tratarInserirFim(lista)
+
+        elif opcao == "3":
+            lista = tratarInserirMeio(lista)
+
+        elif opcao == "4":
+            tratarLista(lista)
+
+        elif opcao == "5":
+            lista = excluir(lista)
+
+        elif opcao == "6":
+            consultar(lista)
+
+        elif opcao == "0":
+            print("Obrigado por usar o sistema")
+            break
+
+        else:
+            print("Opção inválida")
+
+menu()
