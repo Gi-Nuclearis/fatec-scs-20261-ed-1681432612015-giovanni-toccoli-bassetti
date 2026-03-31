@@ -1,0 +1,75 @@
+class Pilha:
+    def __init__ (self):
+        self.itens = []
+        
+    def add(self, number):
+        if len(self.itens) < 3:
+            self.itens.append(number)
+            
+        else: 
+            for i in range(3):
+                if i < 2:
+                    self.itens[i] = self.itens[i + 1]
+                else:
+                    self.itens[2] = number
+        print("\nAdicionaddo\n")
+    
+    def sum (self):
+        res = 0
+        for item in self.itens:
+            res += item
+        self.itens[-1] = res
+        print(res)
+    
+    def sub (self):
+        res = self.itens[0]
+        for item in self.itens:
+            if item != self.itens[0]:
+                res -= item
+        self.itens[-1] = res
+        print(res)
+        
+    def div (self):
+        res = self.itens[0]
+        for item in self.itens:
+            res /= item
+        self.itens[-1] = res  * self.itens[0]
+        print(res)
+        
+    def mul (self):
+        res = 1
+        for item in self.itens:
+            res *= item
+        self.itens[-1] = res
+        print(res)
+    
+    def list(self):
+        for i in range(3):
+            print("\n" + self.itens[1] + "\n")
+        
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except error:
+        return False
+
+pilha = Pilha()
+while True:
+    
+    option = input("Input: \n")
+    if option == "+":
+        pilha.sum()
+    elif option == "-":
+        pilha.sub()
+    elif option == "%":
+        pilha.div()
+    elif option == "*":
+        pilha.mul()
+    elif option == "listar":
+        print("\nmostrando\n")
+        pilha.list()
+    elif is_number(option):
+        pilha.add(float(option))
+    elif option == "break":
+        break
