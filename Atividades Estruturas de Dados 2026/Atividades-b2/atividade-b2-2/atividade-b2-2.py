@@ -1,3 +1,11 @@
+'''
+*---------------------------------------------------------*
+* Fatec São Caetano do Sul *
+* Atividade B2-2 *
+* Autor: Giovanni Toccoli Bassetti *
+*---------------------------------------------------------*
+'''
+
 class Node:
     def __init__ (self, data = None):
         self.data = data
