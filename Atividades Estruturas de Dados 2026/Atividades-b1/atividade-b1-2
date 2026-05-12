@@ -1,3 +1,11 @@
+'''
+*---------------------------------------------------------*
+* Fatec São Caetano do Sul *
+* Atividade B1-2 *
+* Autor: Giovanni Toccoli Bassetti *
+*---------------------------------------------------------*
+'''
+
 def valorExiste(listaCabeca, valorEntrada):
     atual = listaCabeca
 

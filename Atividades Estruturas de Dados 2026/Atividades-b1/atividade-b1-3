@@ -1,3 +1,11 @@
+'''
+*---------------------------------------------------------*
+* Fatec São Caetano do Sul *
+* Atividade B1-3 *
+* Autor: Giovanni Toccoli Bassetti *
+*---------------------------------------------------------*
+'''
+
 class Pilha:
     def __init__ (self):
         self.itens = []
