@@ -1,0 +1,204 @@
+'''
+*--------------------------------------------------------*
+ * Fatec São Caetano do Sul *
+ * Atividade B2-4 *
+ * Autor: Giovanni Toccoli Bassetti *
+*--------------------------------------------------------*
+'''
+
+class Node:
+
+    def __init__(self, value=None):
+        self.value = value
+        self.left = None
+        self.right = None
+
+
+class Tree:
+
+    def __init__(self):
+        self.root = None
+
+    # ----------------------------------------------------------
+
+    def insert(self, value):
+
+        new_node = Node(value)
+
+        if self.root is None:
+            self.root = new_node
+            return
+
+        current = self.root
+
+        while current:
+
+            if value >= current.value:
+
+                if current.right is None:
+                    current.right = new_node
+                    return
+
+                current = current.right
+
+            else:
+
+                if current.left is None:
+                    current.left = new_node
+                    return
+
+                current = current.left
+
+    # ----------------------------------------------------------
+
+    def height(self, node):
+
+        if node is None:
+            return -1
+
+        left_height = self.height(node.left)
+        right_height = self.height(node.right)
+
+        return 1 + max(left_height, right_height)
+
+    # ----------------------------------------------------------
+
+    def balance_factor(self, node):
+
+        if node is None:
+            return 0
+
+        return self.height(node.left) - self.height(node.right)
+
+    # ----------------------------------------------------------
+
+    def rotate_right(self, node):
+
+        new_root = node.left
+        temp = new_root.right
+
+        new_root.right = node
+        node.left = temp
+
+        return new_root
+
+    # ----------------------------------------------------------
+
+    def rotate_left(self, node):
+
+        new_root = node.right
+        temp = new_root.left
+
+        new_root.left = node
+        node.right = temp
+
+        return new_root
+
+    # ----------------------------------------------------------
+
+    def balance(self, node):
+
+        if node is None:
+            return node
+
+        fb = self.balance_factor(node)
+
+        if abs(fb) > 1:
+            print("\nAntes do balanceamento:\n")
+            self.show(node)
+            print()
+
+        # LL
+        if fb > 1 and self.balance_factor(node.left) >= 0:
+
+            print("Rotação LL\n")
+
+            new_root = self.rotate_right(node)
+
+            self.show(new_root)
+            print()
+
+            return new_root
+
+        # RR
+        if fb < -1 and self.balance_factor(node.right) <= 0:
+
+            print("Rotação RR\n")
+
+            new_root = self.rotate_left(node)
+
+            self.show(new_root)
+            print()
+
+            return new_root
+
+        # LR
+        if fb > 1 and self.balance_factor(node.left) < 0:
+
+            print("Rotação LR\n")
+
+            node.left = self.rotate_left(node.left)
+
+            new_root = self.rotate_right(node)
+
+            self.show(new_root)
+            print()
+
+            return new_root
+
+        # RL
+        if fb < -1 and self.balance_factor(node.right) > 0:
+
+            print("Rotação RL\n")
+
+            node.right = self.rotate_right(node.right)
+
+            new_root = self.rotate_left(node)
+
+            self.show(new_root)
+            print()
+
+            return new_root
+
+        return node
+
+    # ----------------------------------------------------------
+
+    def show(self, node):
+
+        if node is None:
+            return
+
+        fb = self.balance_factor(node)
+
+        print(
+            f"Nó: {node.value} | "
+            f"FB: {fb} | "
+            f"H: {self.height(node)}"
+        )
+
+        self.show(node.left)
+        self.show(node.right)
+
+
+# ==========================================================
+# CASO LL
+# ==========================================================
+
+print("\n========== CASO LL ==========\n")
+
+tree = Tree()
+
+values = [50, 30, 70, 20, 40, 10]
+
+for value in values:
+
+    print(f"Inserindo {value}\n")
+
+    tree.insert(value)
+
+    tree.show(tree.root)
+
+    print()
+
+tree.root = tree.balance(tree.root)

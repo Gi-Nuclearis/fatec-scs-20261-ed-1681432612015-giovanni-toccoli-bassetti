@@ -1,0 +1,225 @@
+'''
+*--------------------------------------------------------*
+ * Fatec São Caetano do Sul *
+ * Atividade B2-3 *
+ * Autor: Giovanni Toccoli Bassetti *
+*--------------------------------------------------------*
+'''
+
+def analisar_arvore(self, valor_busca=None):
+    print("Analisando árvore...\n")
+
+    raiz_atual = self.raiz
+
+    print(
+        f"Profundidade do nó: "
+        f"{self.calcular_profundidade(raiz_atual.valor)}"
+    )
+
+    print(
+        f"Altura do nó: "
+        f"{self.calcular_altura(raiz_atual)}"
+    )
+
+    print(f"Id do nó: {id(raiz_atual)}")
+    print(f"{raiz_atual.valor} - Raiz\n")
+
+    if valor_busca is not None:
+        self.imprimir_descendentes(valor_busca)
+
+
+def imprimir_nos_internos(self):
+
+    def percorrer(no_atual):
+
+        possui_esquerda = no_atual.esq is not None
+        possui_direita = no_atual.dir is not None
+
+        if no_atual != self.raiz and (possui_esquerda or possui_direita):
+            print(no_atual.valor)
+
+        if possui_esquerda:
+            percorrer(no_atual.esq)
+
+        if possui_direita:
+            percorrer(no_atual.dir)
+
+    percorrer(self.raiz)
+
+
+def imprimir_folhas(self):
+
+    def percorrer(no_atual):
+
+        if no_atual.esq is not None:
+            percorrer(no_atual.esq)
+
+        elif no_atual.dir is None:
+            print(f"folha - {no_atual.valor}")
+            return
+
+        if no_atual.dir is not None:
+            percorrer(no_atual.dir)
+
+        elif no_atual.esq is None:
+            print(f"folha - {no_atual.valor}")
+            return
+
+    percorrer(self.raiz)
+
+
+def imprimir_niveis(self):
+
+    print(f"raiz - {self.raiz.valor} - Nível 1")
+
+    lista_niveis = []
+
+    def percorrer(no_atual, nivel_atual):
+
+        if no_atual.esq:
+
+            lista_niveis.append({
+                "nivel": nivel_atual + 1,
+                "no": no_atual.esq
+            })
+
+            percorrer(no_atual.esq, nivel_atual + 1)
+
+        if no_atual.dir:
+
+            lista_niveis.append({
+                "nivel": nivel_atual + 1,
+                "no": no_atual.dir
+            })
+
+            percorrer(no_atual.dir, nivel_atual + 1)
+
+    percorrer(self.raiz, 0)
+
+    lista_niveis.sort(key=lambda item: item["nivel"])
+
+    indice = 0
+
+    while indice < len(lista_niveis):
+
+        print(
+            f"{lista_niveis[indice]['no'].valor} "
+            f"- nível {lista_niveis[indice]['nivel']}"
+        )
+
+        indice += 1
+
+
+def calcular_altura(self, no):
+
+    if no is None:
+        return 0
+
+    altura_esquerda = self.calcular_altura(no.esq)
+    altura_direita = self.calcular_altura(no.dir)
+
+    return 1 + max(altura_esquerda, altura_direita)
+
+
+def calcular_profundidade(self, valor):
+
+    def percorrer(no_atual, profundidade):
+
+        if no_atual is None:
+            return -1
+
+        if no_atual.valor == valor:
+            return profundidade
+
+        resultado_esquerda = percorrer(
+            no_atual.esq,
+            profundidade + 1
+        )
+
+        if resultado_esquerda != -1:
+            return resultado_esquerda
+
+        resultado_direita = percorrer(
+            no_atual.dir,
+            profundidade + 1
+        )
+
+        return resultado_direita
+
+    return percorrer(self.raiz, 0)
+
+
+def imprimir_ancestrais(self, valor):
+
+    if valor != self.raiz.valor:
+        print("Imprimindo ancestrais")
+
+    ancestrais = []
+
+    def percorrer(no_atual):
+
+        if no_atual is None:
+
+            if no_atual == self.raiz:
+                print("Lista vazia.")
+
+            return False
+
+        if no_atual.valor == valor:
+            return True
+
+        encontrou = (
+            percorrer(no_atual.esq)
+            or
+            percorrer(no_atual.dir)
+        )
+
+        if encontrou:
+            ancestrais.append(str(no_atual.valor))
+            return True
+
+        return False
+
+    if not percorrer(self.raiz):
+
+        print("Valor não encontrado")
+
+    else:
+
+        indice = len(ancestrais) - 1
+
+        while indice >= 0:
+
+            print(ancestrais[indice])
+
+            indice -= 1
+
+
+def imprimir_descendentes(self, valor):
+
+    if valor == self.raiz.valor:
+        print("Imprimindo descendentes da Árvore")
+    else:
+        print("Imprimindo descendentes")
+
+    def percorrer(no_atual, encontrou_valor):
+
+        if no_atual is None:
+
+            if no_atual == self.raiz:
+                print("Lista vazia.")
+
+            return
+
+        if no_atual.valor != valor:
+
+            if encontrou_valor == 1:
+                print(no_atual.valor)
+
+        else:
+            encontrou_valor = 1
+
+        percorrer(no_atual.esq, encontrou_valor)
+        percorrer(no_atual.dir, encontrou_valor)
+
+    percorrer(self.raiz, 0)
